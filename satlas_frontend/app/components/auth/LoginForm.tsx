@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Platform, ActivityIndicator, Alert } from 'react-native';
 import CustomInput from '../common/CustomInput';
 import PasswordInput from '../common/PasswordInput';
 import ActionButton from '../common/ActionButton';
+import { useAuth } from '../../context/AuthContext';
 
 interface LoginFormProps {
   onForgotPassword: () => void;
@@ -19,9 +20,20 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const [password, setPassword] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const handleLogin = (): void => {
-    // Handle login logic here
-    console.log('Login with:', email, password);
+  const { login, isLoading, error } = useAuth();
+
+  const handleLogin = async (): Promise<void> => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password');
+      return;
+    }
+
+    try {
+      await login(email, password);
+      // No need to navigate - AppNavigator will handle this automatically
+    } catch (error) {
+      Alert.alert('Login Failed', error instanceof Error ? error.message : 'An error occurred during login');
+    }
   };
 
   const toggleShowPassword = (): void => {
@@ -61,11 +73,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
       {/* Login Button */}
       <ActionButton
-        title="Login"
+        title={isLoading ? "Logging in..." : "Login"}
         onPress={handleLogin}
-        disabled={!email || !password}
+        disabled={!email || !password || isLoading}
         testID="login-button"
       />
+
+      {isLoading && (
+        <ActivityIndicator size="small" color="#715CFD" style={styles.loader} />
+      )}
 
       {/* Create Account */}
       <TouchableOpacity
@@ -99,6 +115,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
     fontFamily: Platform.OS === 'web' ? 'Arial' : 'Poppins-Medium',
+  },
+  loader: {
+    marginVertical: 10,
   },
 });
 

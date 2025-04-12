@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const JWT_SECRET = process.env.JWT_Secret;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 if (!JWT_SECRET) {
   throw new Error(
@@ -16,13 +16,12 @@ if (!JWT_SECRET) {
 
 export const userSignup = async (req: Request, res: Response) => {
   try {
-   
-    const { name, email, password, currentGrade, country } = req.body;
+    const { name, email, password, phoneNumber, currentGrade, country } = req.body;
     console.log(req.body);
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      res.status(400).json({ message: "User already exist" });
+      return res.status(400).json({ message: "User already exist" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -31,13 +30,14 @@ export const userSignup = async (req: Request, res: Response) => {
       name,
       email,
       password: hashedPassword,
+      phoneNumber,
       currentGrade,
       country,
     });
 
     const saveUser = await NewUSer.save();
     if (!JWT_SECRET) {
-      res.status(500).json({ error: "JWT secret is missing" });
+      return res.status(500).json({ error: "JWT secret is missing" });
     }
 
     const token = jwt.sign(
@@ -46,12 +46,12 @@ export const userSignup = async (req: Request, res: Response) => {
       { expiresIn: "7d" }
     );
 
-    res
+    return res
       .status(201)
       .json({ message: "New user Created", user: saveUser, token });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Server Eroor" });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -60,21 +60,27 @@ export const userSignin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (user) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        res.status(401).json({ message: "Invalid password" });
-      }
-
-      const token = jwt.sign(
-        { userId: user._id, email: user.email },
-        JWT_SECRET,
-        { expiresIn: "7d" }
-      );
-
-      res.status(200).json({ message: "Logged In Succesfull", user, token });
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
+
+    // Check password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    // Generate token
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    return res.status(200).json({ message: "Logged In Successful", user, token });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Login error:", error);
+    return res.status(500).json({ message: "Server error" });
   }
 };

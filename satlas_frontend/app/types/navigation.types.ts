@@ -1,4 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 export type RootStackParamList = {
   Welcome: undefined;
@@ -6,7 +7,15 @@ export type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
+  MainTabs: undefined;
+};
+
+export type MainTabParamList = {
   Home: undefined;
+  Books: undefined;
+  AddAction: undefined;
+  Search: undefined;
+  Menu: undefined;
 };
 
 export type WelcomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Welcome'>;
@@ -14,4 +23,8 @@ export type SplashScreenNavigationProp = StackNavigationProp<RootStackParamList,
 export type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 export type SignUpScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SignUp'>;
 export type ForgotPasswordScreenNavigationProp = StackNavigationProp<RootStackParamList, 'ForgotPassword'>;
-export type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>; 
+
+export type HomeTabNavigationProp = BottomTabNavigationProp<MainTabParamList, 'Home'>;
+export type BooksTabNavigationProp = BottomTabNavigationProp<MainTabParamList, 'Books'>;
+export type SearchTabNavigationProp = BottomTabNavigationProp<MainTabParamList, 'Search'>;
+export type MenuTabNavigationProp = BottomTabNavigationProp<MainTabParamList, 'Menu'>; 

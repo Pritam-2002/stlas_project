@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Platform, Alert, ActivityIndicator } from 'react-native';
 import CustomInput from '../common/CustomInput';
 import PasswordInput from '../common/PasswordInput';
 import Checkbox from '../common/Checkbox';
 import ActionButton from '../common/ActionButton';
+import { useAuth } from '../../context/AuthContext';
 
 interface SignupFormProps {
   testID?: string;
@@ -28,7 +29,16 @@ const SignupForm: React.FC<SignupFormProps> = ({ testID }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [agreeToTerms, setAgreeToTerms] = useState<boolean>(false);
 
+  const { signup, isLoading, error } = useAuth();
+
   const handleNextStep = (): void => {
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Invalid Email', 'Please enter a valid email address');
+      return;
+    }
+
     // Proceed to authentication step in signup flow
     setStep('auth');
   };
@@ -38,17 +48,32 @@ const SignupForm: React.FC<SignupFormProps> = ({ testID }) => {
     setStep('user-info');
   };
 
-  const handleSignUp = (): void => {
-    // Handle signup logic here
-    console.log('Sign up with:',
-      name,
-      email,
-      grade,
-      country,
-      phoneNumber,
-      password,
-      confirmPassword
-    );
+  const handleSignUp = async (): Promise<void> => {
+    // Validate password requirements
+    if (password.length < 6) {
+      Alert.alert('Weak Password', 'Password must be at least 6 characters long');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Password Mismatch', 'Passwords do not match');
+      return;
+    }
+
+    try {
+      // Call the signup function from auth context
+      await signup({
+        name,
+        email,
+        password,
+        phoneNumber,
+        currentGrade: grade,
+        country,
+      });
+      // No need to navigate - AppNavigator will handle this automatically
+    } catch (error) {
+      Alert.alert('Signup Failed', error instanceof Error ? error.message : 'An error occurred during signup');
+    }
   };
 
   const toggleShowPassword = (): void => {
@@ -123,7 +148,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ testID }) => {
       <>
         {/* Phone Number Input */}
         <CustomInput
-          label="Phone Number"
+          label="Phone Number (Optional)"
           value={phoneNumber}
           onChangeText={setPhoneNumber}
           placeholder="Enter your phone number"
@@ -163,19 +188,26 @@ const SignupForm: React.FC<SignupFormProps> = ({ testID }) => {
 
         {/* Sign Up Button */}
         <ActionButton
-          title="Sign Up"
+          title={isLoading ? "Creating account..." : "Sign Up"}
           onPress={handleSignUp}
-          disabled={!phoneNumber || !password || !confirmPassword || !agreeToTerms || password !== confirmPassword}
+          disabled={!password || !confirmPassword || !agreeToTerms || password !== confirmPassword || isLoading}
           isGreen={true}
           testID="signup-button"
         />
+
+        {isLoading && (
+          <ActivityIndicator size="small" color="#54D96C" style={styles.loader} />
+        )}
 
         {/* Go Back Button */}
         <TouchableOpacity
           style={styles.backButtonContainer}
           onPress={handleBackStep}
+          disabled={isLoading}
         >
-          <Text style={styles.backButtonText}>Back to previous step</Text>
+          <Text style={[styles.backButtonText, isLoading && styles.disabledText]}>
+            Back to previous step
+          </Text>
         </TouchableOpacity>
       </>
     );
@@ -199,10 +231,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontFamily: Platform.OS === 'web' ? 'Arial' : 'Poppins-Medium',
   },
-  // actionButtonDisabled: {
-  //   backgroundColor: 'transparent', // Light gray when disabled
-  //   opacity: 0,
-  // },
+  disabledText: {
+    opacity: 0.5,
+  },
+  loader: {
+    marginVertical: 10,
+  },
 });
 
 export default SignupForm;

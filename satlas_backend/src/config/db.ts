@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { eroorHnadler } from "../utils/eroorHandler";
+import { errorHandler } from "../utils/eroorHandler";
 
 export const ConnectDb = async () => {
   const uri = process.env.MONGODB_URI;
@@ -15,7 +15,7 @@ export const ConnectDb = async () => {
     console.log("Mongodb connected");
   } catch (error) {
     // console.log(error);
-    eroorHnadler(error);
+    errorHandler(error);
     process.exit(1);
   }
 };

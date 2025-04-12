@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"tsc --build --watch\" \"nodemon dist/server.js\" \"nodemon dist/websocket/ws.server.js\""
+    "dev": "concurrently \"tsc --build --watch\" \"nodemon dist/server.js\""
   },
   "keywords": [],
   "author": "",

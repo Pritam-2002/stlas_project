@@ -1,7 +1,8 @@
-const mongoose = require("mongoose");
-export const eroorHnadler = (eroor: unknown) => {
-  if (eroor instanceof Error) {
-    console.error("❌ Error:", eroor.message);
+import mongoose from "mongoose";
+
+export const errorHandler = (error: unknown) => {
+  if (error instanceof Error) {
+    console.error("❌ Error:", error.message);
   } else {
     console.error("❌ An unknown error occurred");
   }

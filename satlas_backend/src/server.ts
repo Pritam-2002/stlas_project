@@ -1,5 +1,4 @@
 import express from "express";
-import { WebSocketServer, WebSocket } from "ws";
 import { ConnectDb } from "./config/db";
 import app1 from "./routes/index.route";
 import dotenv from "dotenv";
