@@ -55,26 +55,30 @@ const Dashboard = () => {
         </View>
 
 
-        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20, alignItems: "center", paddingHorizontal: "2%" }}>
 
-          <View>
-            <Text style={{ fontWeight: "bold" }}>Free Practice</Text>
-            <View style={{ height: 3, width: "50%", backgroundColor: "#612EF7", marginTop: 5 }} ></View>
-          </View>
-          <View>
-            <Text style={{ fontWeight: "bold" }}>Courses</Text>
-            <View style={{ height: 3, width: "50%", backgroundColor: "#34C759", marginTop: 5 }} ></View>
-          </View>
-
-        </View>
 
         {/* Free Practice & Courses */}
         <View style={styles.sectionRow}>
 
 
-          <PracticeCard actionbtntext={"Start Now"} cardTitle='SAT Practice' cardTitle2='Paper-1' paperInfo='📚 Paper 2 of 8' progressText='44%' Progresspercentage={0.44} />
+          <View>
+            <Text style={{ fontWeight: "bold", fontSize: 16 }}>Free Practice</Text>
+            <View style={{ height: 3, width: "30%", backgroundColor: "#612EF7", marginTop: 5, marginBottom: "5%" }} ></View>
 
-          <PracticeCard actionbtntext={"View All"} cardTitle='Course Progress' cardTitle2='' paperInfo='📚 Paper 2 of 8' progressText='15%' Progresspercentage={0.15} />
+            <PracticeCard actionbtntext={"Start Now"} cardTitle='SAT Practice' cardTitle2='Paper-1' paperInfo='📚 Paper 2 of 8' progressText='44%' Progresspercentage={0.44} />
+          </View>
+
+
+
+
+
+
+          <View>
+            <Text style={{ fontWeight: "bold", fontSize: 16 }}>Courses</Text>
+            <View style={{ height: 3, width: "30%", backgroundColor: "#34C759", marginTop: 5, marginBottom: "5%" }} ></View>
+            <PracticeCard actionbtntext={"View All"} cardTitle='Course Progress' cardTitle2='' paperInfo='📚 Paper 2 of 8' progressText='15%' Progresspercentage={0.15} />
+          </View>
+
         </View>
 
         {/* Live Sessions */}

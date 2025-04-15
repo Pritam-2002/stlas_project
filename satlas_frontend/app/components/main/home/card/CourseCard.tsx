@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
     height: "auto",
     width: 180,
     shadowColor: '#000',
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   paperInfo: {
-    marginTop: 20,
+    marginTop: 30,
     fontSize: 12,
     color: '#555',
   },

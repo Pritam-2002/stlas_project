@@ -3,12 +3,12 @@ import { View, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // or FontAwesome, etc.
 
 const topMenuItems = [
-  { label: 'SAT Library', icon: 'basketball' },
-  { label: 'Exam Dates', icon: 'palette' },
+  { label: 'SAT Library', icon: 'bookshelf' },
+  { label: 'Exam Dates', icon: 'calendar' },
   { label: 'Registration', icon: 'laptop' },
-  { label: 'Scholarships', icon: 'cookie' },
-  { label: 'Daily Quiz', icon: 'calendar' },
-  { label: 'Book Demo', icon: 'book-open' },
+  { label: 'Scholarships', icon: 'cash-multiple' },
+  { label: 'Daily Quiz', icon: 'brain' },
+  { label: 'Book Demo', icon: 'video' },
   { label: 'AI Reports', icon: 'robot' },
 ];
 
@@ -28,7 +28,7 @@ const MenuGrid = () => {
           </View>
         ))}
       </View>
-      <View style={styles.row}>
+      <View style={styles.row2}>
         {secondRow.map((item, index) => (
           <View style={styles.gridItem} key={index}>
             <View style={styles.iconCircle}>
@@ -46,10 +46,20 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 15,
     paddingBottom: 5,
+    paddingHorizontal: "3%",
   },
   row: {
     flexDirection: 'row',
-    justifyContent: "flex-start",
+    gap: "7%",
+
+    marginBottom: 12,
+    alignItems: "center",
+
+  },
+  row2: {
+    flexDirection: 'row',
+    gap: "7%",
+    marginTop: "3%",
     marginBottom: 12,
     alignItems: "center",
 
