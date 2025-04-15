@@ -1,146 +1,261 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, StatusBar } from 'react-native';
-import { useAuth } from '../context/AuthContext';
-import { HomeTabNavigationProp } from '../types/navigation.types';
-import { useNavigation } from '@react-navigation/native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { RFValue } from 'react-native-responsive-fontsize';
+import MenuGrid from 'app/components/main/home/TopMenu';
+import PracticeCard from 'app/components/main/home/card/CourseCard';
+import AutoSlider from 'app/components/main/home/slider/HomeSlider';
 
-const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<HomeTabNavigationProp>();
-  const { user, logout } = useAuth();
+const topMenuItems = [
+  { label: 'SAT Library', icon: 'book' },
+  { label: 'Exam Dates', icon: 'calendar' },
+  { label: 'Registration', icon: 'person-add' },
+  { label: 'Scholarships', icon: 'trophy' },
+  { label: 'Daily Quiz', icon: 'help-circle' },
+  { label: 'Book Demo', icon: 'videocam' },
+  { label: 'All Reports', icon: 'document-text' },
+];
 
-  const handleLogout = async () => {
-    await logout();
-    // Navigation will be handled automatically by the AppNavigator
-  };
-
+const Dashboard = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: "10%" }}>
 
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>SATLAS</Text>
-        <TouchableOpacity style={styles.profileButton} onPress={() => { }}>
-          <View style={styles.profileAvatar}>
-            <Text style={styles.profileInitial}>{user?.name?.charAt(0) || 'U'}</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.content}>
-          <Text style={styles.welcomeText}>Welcome, {user?.name?.split(' ')[0] || 'User'}!</Text>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>Your Profile</Text>
-            <View style={styles.userInfo}>
-              <Text style={styles.infoText}>Name: {user?.name}</Text>
-              <Text style={styles.infoText}>Email: {user?.email}</Text>
-              {user?.currentGrade && (
-                <Text style={styles.infoText}>Grade: {user.currentGrade}</Text>
-              )}
-              {user?.country && (
-                <Text style={styles.infoText}>Country: {user.country}</Text>
-              )}
-            </View>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <Icon name="menu" size={24} color="#000" />
+            <Text style={styles.title}>SAT Dashboard</Text>
           </View>
 
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutButtonText}>Logout</Text>
-          </TouchableOpacity>
+          <Image source={{ uri: 'https://i.pravatar.cc/100' }} style={styles.avatar} />
         </View>
+
+        {/* Hero Banner */}
+
+        <AutoSlider />
+        {/* separator */}
+        <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
+
+        </View>
+        {/* Top Menu */}
+        <MenuGrid />
+
+        <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
+
+        </View>
+
+
+        <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20, alignItems: "center", paddingHorizontal: "2%" }}>
+
+          <View>
+            <Text style={{ fontWeight: "bold" }}>Free Practice</Text>
+            <View style={{ height: 3, width: "50%", backgroundColor: "#612EF7", marginTop: 5 }} ></View>
+          </View>
+          <View>
+            <Text style={{ fontWeight: "bold" }}>Courses</Text>
+            <View style={{ height: 3, width: "50%", backgroundColor: "#34C759", marginTop: 5 }} ></View>
+          </View>
+
+        </View>
+
+        {/* Free Practice & Courses */}
+        <View style={styles.sectionRow}>
+
+
+          <PracticeCard actionbtntext={"Start Now"} cardTitle='SAT Practice' cardTitle2='Paper-1' paperInfo='📚 Paper 2 of 8' progressText='44%' Progresspercentage={0.44} />
+
+          <PracticeCard actionbtntext={"View All"} cardTitle='Course Progress' cardTitle2='' paperInfo='📚 Paper 2 of 8' progressText='15%' Progresspercentage={0.15} />
+        </View>
+
+        {/* Live Sessions */}
+        <View style={styles.liveSection}>
+          <View style={styles.liveHeader}>
+            <Text style={styles.liveTitle}>Recent Live Sessions</Text>
+            <TouchableOpacity>
+              <Text style={styles.viewAll}>View all</Text>
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.liveCard}>
+              <Image
+                style={styles.liveImage}
+                source={{ uri: 'https://beaconedu.com.np/wp-content/uploads/2019/08/SAT.png' }}
+              />
+
+            </View>
+
+            <View style={styles.liveCard}>
+              <Image
+                style={styles.liveImage}
+                source={{ uri: 'https://beaconedu.com.np/wp-content/uploads/2019/08/SAT.png' }}
+              />
+
+            </View>
+          </ScrollView>
+        </View>
+
       </ScrollView>
     </SafeAreaView>
   );
 };
 
+export default Dashboard;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FB',
+    backgroundColor: '#F8F9FD',
+    paddingHorizontal: 16,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E8ECF4',
+    marginTop: 10,
   },
-  headerTitle: {
-    fontSize: 24,
-    fontFamily: 'Poppins-SemiBold',
-    color: '#0047CC',
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+
   },
-  profileButton: {
-    padding: 5,
+  title: {
+    fontSize: RFValue(16),
+    fontWeight: '600',
   },
-  profileAvatar: {
-    width: 40,
-    height: 40,
+  avatar: {
+    height: 35,
+    width: 35,
     borderRadius: 20,
-    backgroundColor: '#376AED',
+  },
+  gridContainer: {
+    alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 20,
+  },
+
+  gridItem: {
+    flex: 1,
+    alignItems: 'center',
+    marginVertical: 10,
+    minWidth: '25%', // 4 items per row
+  },
+
+  banner: {
+    backgroundColor: '#DDEAFE',
+    borderRadius: 16,
+    padding: 20,
+    marginTop: 20,
     alignItems: 'center',
   },
-  profileInitial: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Poppins-SemiBold',
+  bannerText: {
+    fontSize: RFValue(18),
+    fontWeight: '700',
+    color: '#4A90E2',
   },
-  scrollView: {
-    flex: 1,
+  bannerSub: {
+    fontSize: RFValue(14),
+    marginTop: 4,
   },
-  content: {
-    padding: 20,
+  bannerImage: {
+    height: 60,
+    width: 60,
+    marginTop: 10,
   },
-  welcomeText: {
-    fontSize: 22,
-    fontFamily: 'Poppins-Medium',
-    color: '#333333',
-    marginBottom: 20,
+  topMenu: {
+    marginTop: 20,
+  },
+  menuItem: {
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  menuText: {
+    fontSize: RFValue(10),
+    marginTop: 4,
+  },
+  sectionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 25,
   },
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
+    width: '48%',
     elevation: 2,
   },
   cardTitle: {
-    fontSize: 18,
-    fontFamily: 'Poppins-SemiBold',
-    color: '#376AED',
-    marginBottom: 15,
+    fontSize: RFValue(12),
+    fontWeight: '600',
   },
-  userInfo: {
-    width: '100%',
+  cardSubtitle: {
+    fontSize: RFValue(10),
+    marginVertical: 6,
   },
-  infoText: {
-    fontSize: 16,
-    color: '#555',
+  startBtn: {
+    backgroundColor: '#4A90E2',
+    padding: 6,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginVertical: 6,
+  },
+  startText: {
+    color: '#fff',
+    fontSize: RFValue(10),
+  },
+  viewBtn: {
+    backgroundColor: '#E0D5F6',
+    padding: 6,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginVertical: 6,
+  },
+  viewText: {
+    color: '#6A38B1',
+    fontSize: RFValue(10),
+  },
+  progress: {
+    fontSize: RFValue(10),
+    color: '#888',
+  },
+  liveSection: {
+    marginTop: 30,
+  },
+  liveHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 10,
-    fontFamily: 'Poppins-Regular',
   },
-  logoutButton: {
-    backgroundColor: '#376AED',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    alignSelf: 'center',
-    marginTop: 10,
+  liveTitle: {
+    fontSize: RFValue(14),
+    fontWeight: '600',
   },
-  logoutButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontFamily: 'Poppins-SemiBold',
+  viewAll: {
+    color: '#1DB954',
+    fontSize: RFValue(12),
+  },
+  liveCard: {
+    width: 180,
+    marginRight: 16,
+  },
+  liveImage: {
+    height: 100,
+    borderRadius: 12,
+  },
+  liveText: {
+    fontSize: RFValue(10),
+    marginTop: 4,
   },
 });
-
-export default HomeScreen; 
