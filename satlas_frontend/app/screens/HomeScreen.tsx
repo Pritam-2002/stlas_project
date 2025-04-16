@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import MenuGrid from 'app/components/main/home/TopMenu';
+import { LinearGradient } from 'expo-linear-gradient';
 import PracticeCard from 'app/components/main/home/card/CourseCard';
 import AutoSlider from 'app/components/main/home/slider/HomeSlider';
 
@@ -27,90 +28,105 @@ const topMenuItems = [
 
 const Dashboard = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: "10%" }}>
 
-        {/* Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <Icon name="menu" size={24} color="#000" />
-            <Text style={styles.title}>SAT Dashboard</Text>
-          </View>
+    <LinearGradient
+      colors={['#dbe6ff', '#ffffff']} // light blue to white
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.container}>
 
-          <Image source={{ uri: 'https://i.pravatar.cc/100' }} style={styles.avatar} />
-        </View>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: "10%" }}>
 
-        {/* Hero Banner */}
-
-        <AutoSlider />
-        {/* separator */}
-        <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
-
-        </View>
-        {/* Top Menu */}
-        <MenuGrid />
-
-        <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
-
-        </View>
-
-
-
-
-        {/* Free Practice & Courses */}
-        <View style={styles.sectionRow}>
-
-
-          <View>
-            <Text style={{ fontWeight: "bold", fontSize: 16 }}>Free Practice</Text>
-            <View style={{ height: 3, width: "30%", backgroundColor: "#612EF7", marginTop: 5, marginBottom: "5%" }} ></View>
-
-            <PracticeCard actionbtntext={"Start Now"} cardTitle='SAT Practice' cardTitle2='Paper-1' paperInfo='📚 Paper 2 of 8' progressText='44%' Progresspercentage={0.44} />
-          </View>
-
-
-
-
-
-
-          <View>
-            <Text style={{ fontWeight: "bold", fontSize: 16 }}>Courses</Text>
-            <View style={{ height: 3, width: "30%", backgroundColor: "#34C759", marginTop: 5, marginBottom: "5%" }} ></View>
-            <PracticeCard actionbtntext={"View All"} cardTitle='Course Progress' cardTitle2='' paperInfo='📚 Paper 2 of 8' progressText='15%' Progresspercentage={0.15} />
-          </View>
-
-        </View>
-
-        {/* Live Sessions */}
-        <View style={styles.liveSection}>
-          <View style={styles.liveHeader}>
-            <Text style={styles.liveTitle}>Recent Live Sessions</Text>
-            <TouchableOpacity>
-              <Text style={styles.viewAll}>View all</Text>
-            </TouchableOpacity>
-          </View>
-
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.liveCard}>
-              <Image
-                style={styles.liveImage}
-                source={{ uri: 'https://beaconedu.com.np/wp-content/uploads/2019/08/SAT.png' }}
-              />
-
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.headerLeft}>
+              <Icon name="menu" size={24} color="#000" />
+              <Text style={styles.title}>SAT Dashboard</Text>
             </View>
 
-            <View style={styles.liveCard}>
-              <Image
-                style={styles.liveImage}
-                source={{ uri: 'https://beaconedu.com.np/wp-content/uploads/2019/08/SAT.png' }}
-              />
+            <Image source={{ uri: 'https://i.pravatar.cc/100' }} style={styles.avatar} />
+          </View>
 
+          {/* Hero Banner */}
+
+          <AutoSlider />
+          {/* separator */}
+          <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
+
+          </View>
+          {/* Top Menu */}
+          <MenuGrid />
+
+          <View style={{ height: 0.5, width: "100%", backgroundColor: "#C9C9C9" }} >
+
+          </View>
+
+
+
+
+          {/* Free Practice & Courses */}
+          <View style={styles.sectionRow}>
+
+
+            <View>
+              <Text style={{ fontWeight: "bold", fontSize: 16 }}>Free Practice</Text>
+              <View style={{ height: 3, width: "30%", backgroundColor: "#612EF7", marginTop: 5, marginBottom: "5%" }} ></View>
+
+              <PracticeCard actionbtntext={"Start Now"} cardTitle='SAT Practice' cardTitle2='Paper-1' paperInfo='📚 Paper 2 of 8' progressText='44%' Progresspercentage={0.44} ProgressBarColor='#FF6B2C' />
             </View>
-          </ScrollView>
-        </View>
 
-      </ScrollView>
-    </SafeAreaView>
+
+
+
+
+
+            <View>
+              <Text style={{ fontWeight: "bold", fontSize: 16 }}>Courses</Text>
+              <View style={{ height: 3, width: "30%", backgroundColor: "#34C759", marginTop: 5, marginBottom: "5%" }} ></View>
+              <PracticeCard actionbtntext={"View All"} cardTitle='Course Progress' cardTitle2='' paperInfo='📚 Paper 2 of 8' progressText='15%' Progresspercentage={0.15} ProgressBarColor='#2CA6FF' />
+            </View>
+
+          </View>
+
+          {/* Live Sessions */}
+          <View style={styles.liveSection}>
+            <View style={styles.liveHeader}>
+              <View>
+                <Text style={styles.liveTitle}>Recent Live Sessions</Text>
+                <View style={{ height: 3, width: "33%", backgroundColor: "#34C759" }}></View>
+              </View>
+
+              <TouchableOpacity style={{ backgroundColor: "#34C759", height: 30, width: 80, borderRadius: 20, alignItems: "center", justifyContent: "center" }}>
+                <Text style={styles.viewAll}>View all</Text>
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={styles.liveCard}>
+                <Image
+                  style={styles.liveImage}
+                  source={{ uri: 'https://beaconedu.com.np/wp-content/uploads/2019/08/SAT.png' }}
+                />
+
+              </View>
+
+              <View style={styles.liveCard}>
+                <Image
+                  style={styles.liveImage}
+                  source={{ uri: 'https://beaconedu.com.np/wp-content/uploads/2019/08/SAT.png' }}
+                />
+
+              </View>
+            </ScrollView>
+          </View>
+
+        </ScrollView>
+
+      </SafeAreaView>
+    </LinearGradient>
+    // </SafeAreaView>
   );
 };
 
@@ -119,7 +135,7 @@ export default Dashboard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FD',
+
     paddingHorizontal: 16,
   },
   header: {
@@ -127,6 +143,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginTop: 10,
+  },
+  gradient: {
+    flex: 1,
   },
   headerLeft: {
     flexDirection: 'row',
@@ -247,7 +266,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   viewAll: {
-    color: '#1DB954',
+    color: '#fff',
     fontSize: RFValue(12),
   },
   liveCard: {

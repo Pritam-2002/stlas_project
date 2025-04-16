@@ -1,3 +1,4 @@
+import NoteEditIcon from 'assets/icons/home/Note-editIcon/NoteEditicon';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { ProgressBar } from 'react-native-paper'; // or use a custom View
@@ -9,13 +10,16 @@ type PracticeCardProps = {
   progressText: string;
   paperInfo: string;
   Progresspercentage: number;
+  ProgressBarColor?: string;
 };
 
-const PracticeCard = ({ actionbtntext, cardTitle, cardTitle2, progressText, paperInfo, Progresspercentage }: PracticeCardProps) => {
+const PracticeCard = ({ actionbtntext, cardTitle, cardTitle2, progressText, paperInfo, Progresspercentage, ProgressBarColor }: PracticeCardProps) => {
   return (
     <View style={styles.card}>
       <View style={styles.topRow}>
-        <Text style={styles.icon}>👁️‍🗨️</Text>
+        <View style={{ height: 35, width: 35, padding: 7, backgroundColor: "#dbe6ff", borderRadius: "50%" }} ><NoteEditIcon />
+
+        </View>
         <TouchableOpacity style={styles.startBtn}>
           <Text style={styles.startText}>{actionbtntext}</Text>
         </TouchableOpacity>
@@ -25,8 +29,8 @@ const PracticeCard = ({ actionbtntext, cardTitle, cardTitle2, progressText, pape
       <Text style={styles.cardTitle2}>{cardTitle2}</Text>
 
       <View style={styles.progressWrapper}>
-        <ProgressBar progress={Progresspercentage} color="#FF6B00" style={styles.progressBar} />
-        <View style={styles.progressTextWrapper}>
+        <ProgressBar progress={Progresspercentage} color={ProgressBarColor} style={styles.progressBar} />
+        <View style={[styles.progressTextWrapper, { backgroundColor: ProgressBarColor }]}>
           <Text style={styles.progressText}>{progressText}</Text>
         </View>
       </View>
@@ -41,7 +45,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingTop: 10,
+    paddingBottom: 15,
     height: "auto",
     width: 180,
     shadowColor: '#000',
@@ -59,7 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   startBtn: {
-    backgroundColor: '#6C47FF',
+    backgroundColor: '#376AED',
     paddingVertical: 4,
     paddingHorizontal: 12,
     borderRadius: 10,
