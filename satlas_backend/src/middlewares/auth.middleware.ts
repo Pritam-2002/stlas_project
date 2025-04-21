@@ -15,7 +15,7 @@ export const Authenticate = (
   }
 
   try {
-    const secret = process.env.JWT_Secret;
+    const secret = process.env.JWT_SECRET;
     if (!secret) {
       console.error("JWT_Secret environment variable is not set!");
       return res.status(500).json({ message: "Internal Server Error" });

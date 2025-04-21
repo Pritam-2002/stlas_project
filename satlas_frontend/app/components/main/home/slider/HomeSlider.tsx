@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
 
 
 
+
+
   },
   image: {
     width: width,

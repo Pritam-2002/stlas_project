@@ -1,5 +1,4 @@
 import { User } from "../models/user.model";
-import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -14,7 +13,7 @@ if (!JWT_SECRET) {
   );
 }
 
-export const userSignup = async (req: Request, res: Response) => {
+export const userSignup = async (req: any, res: any) => {
   try {
     const { name, email, password, phoneNumber, currentGrade, country } = req.body;
     console.log(req.body);
@@ -55,7 +54,7 @@ export const userSignup = async (req: Request, res: Response) => {
   }
 };
 
-export const userSignin = async (req: Request, res: Response) => {
+export const userSignin = async (req: any, res: any) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
