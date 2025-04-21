@@ -1,8 +1,8 @@
 import { Banner } from '../models/banner.model';
 import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
-import { Request, Response } from 'express';
 import { Readable } from 'stream';
+
 
 dotenv.config();
 
@@ -49,7 +49,7 @@ export const uploadBanner = async (req: any, res: any) => {
 };
 
 // Get all images
-export const getAllBanners = async (res: any) => {
+export const getAllBanners = async (req:any,res: any) => {
   try {
     const banners = await Banner.find().sort({ createdAt: -1 });
     res.status(200).json(banners);

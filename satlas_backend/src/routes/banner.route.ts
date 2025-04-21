@@ -8,9 +8,9 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const router = Router();
-// router.use(Authenticate);
+
 // Use `upload.single('file')` to match Postman field
-router.post("/uploadbanner", upload.single('file'), uploadBanner);
-router.get("/getbanner", getAllBanners); // changed POST to GET since it's fetching
+router.post("/uploadbanner",Authenticate, upload.single('file'), uploadBanner);
+router.get("/getbanner",Authenticate, getAllBanners); // changed POST to GET since it's fetching
 
 export default router;
