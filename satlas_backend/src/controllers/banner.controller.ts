@@ -13,7 +13,7 @@ cloudinary.v2.config({
 });
 
 // Upload image
-export const uploadBanner = async (req: Request, res: Response) => {
+export const uploadBanner = async (req: any, res: any) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No image file provided.' });
@@ -49,7 +49,7 @@ export const uploadBanner = async (req: Request, res: Response) => {
 };
 
 // Get all images
-export const getAllBanners = async (req: Request, res: Response) => {
+export const getAllBanners = async (res: any) => {
   try {
     const banners = await Banner.find().sort({ createdAt: -1 });
     res.status(200).json(banners);
