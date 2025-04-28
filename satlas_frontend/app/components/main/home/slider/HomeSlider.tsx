@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Image, StyleSheet, Dimensions } from 'react-native';
 import Swiper from 'react-native-swiper';
+import apiClient from '../../../../utils/apiClient';
 
-const { width } = Dimensions.get('window');
+interface Banner {
+  _id: string;
+  url: string;
+  createdAt: string;
+}
 
 const AutoSlider = () => {
+  const [banners, setBanners] = useState<Banner[]>([]);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const response = await apiClient.get('/banner/getbanner');
+        setBanners(response.data);
+      } catch (error) {
+        console.error('Error fetching banners:', error);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Swiper
@@ -14,20 +34,14 @@ const AutoSlider = () => {
         dotColor="#ccc"
         activeDotColor="#000"
       >
-        <Image
-          source={{ uri: 'https://assets.testinnovators.com/wp-content/uploads/2023/12/Digital-SAT-Infographic-Banner.jpg' }}
-          style={styles.image}
-          resizeMode="stretch"
-        />
-
-        <Image
-          source={{ uri: 'https://img2.storyblok.com//f/64062/1000x586/9aaa6b3e63/sat-test-ebook-m.png' }}
-          style={styles.image}
-          resizeMode="stretch"
-        />
-
-        {/* Add more images if needed */}
-        {/* <Image source={require('./assets/slider2.png')} style={styles.image} /> */}
+        {banners.map((banner) => (
+          <Image
+            key={banner._id}
+            source={{ uri: banner.url }}
+            style={styles.image}
+            resizeMode="stretch"
+          />
+        ))}
       </Swiper>
     </View>
   );
@@ -35,20 +49,12 @@ const AutoSlider = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
-    width: "100%",
-    marginTop: 10,
-
-
-
-
-
+    height: 200, // Adjust height as needed
+    marginVertical: 10,
   },
   image: {
-    width: width,
-    height: 180,
-
-
+    width: '100%',
+    height: '100%',
   },
 });
 

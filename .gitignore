@@ -37,3 +37,6 @@ yarn-error.*
 
 # Cursor editor
 .cursor/
+
+
+.vscode/

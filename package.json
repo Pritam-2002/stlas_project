@@ -1,0 +1,16 @@
+{
+  "name": "satlas-project",
+  "version": "1.0.0",
+  "description": "SATLAS Project with frontend and backend",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "cd satlas_frontend && npm start",
+    "backend": "cd satlas_backend && npm start",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "dependencies": {
+    "@react-navigation/bottom-tabs": "^7.3.10",
+    "concurrently": "^8.2.2"
+  },
+  "private": true
+}

@@ -2,22 +2,22 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    name: { 
-      type: String, 
-      required: true      
+    name: {
+      type: String,
+      required: true
     },
 
     email: {
       type: String,
       required: true,
-      unique: true,      
+      unique: true,
       trim: true,
       lowercase: true,
     },
 
     password: {
       type: String,
-      required: true,   
+      required: true,
       minlength: 6,
     },
 
@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema(
       required: false,
       trim: true,
     },
+
+    phoneNumber: {
+      type: String,
+      required: false,
+      trim: true,
+    }
   },
   { timestamps: true }
 );
