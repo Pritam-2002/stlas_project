@@ -10,6 +10,7 @@ import SearchScreen from '../screens/SearchScreen';
 import MenuScreen from '../screens/MenuScreen';
 import AddActionScreen from '../screens/AddActionScreen';
 import TabBar from '../components/TabBar';
+import HomeStackNavigator from './HomestackNavigator';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -23,7 +24,7 @@ const MainTabNavigator: React.FC = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackNavigator}
       />
       <Tab.Screen
         name="Books"

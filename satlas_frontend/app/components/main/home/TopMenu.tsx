@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // or FontAwesome, etc.
+import { View, Text, StyleSheet, Pressable, } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native'; // or FontAwesome, etc.
 
 const topMenuItems = [
   { label: 'SAT Library', icon: 'bookshelf' },
@@ -13,6 +14,37 @@ const topMenuItems = [
 ];
 
 const MenuGrid = () => {
+
+  const navigation = useNavigation<any>();
+
+  const handlePress = (label: string) => {
+    switch (label) {
+      case 'SAT Library':
+        navigation.navigate('SatLibaryPage'); // Make sure this screen is defined
+        break;
+      case 'Exam Dates':
+        navigation.navigate('ExamDates');
+        break;
+      case 'Registration':
+        navigation.navigate('Registration');
+        break;
+      case 'Scholarships':
+        navigation.navigate('Scholarships');
+        break;
+      case 'Daily Quiz':
+        navigation.navigate('DailyQuiz');
+        break;
+      case 'Book Demo':
+        navigation.navigate('BookDemo');
+        break;
+      case 'AI Reports':
+        navigation.navigate('AiReports');
+        break;
+      default:
+        break;
+    }
+  };
+
   const firstRow = topMenuItems.slice(0, 4);
   const secondRow = topMenuItems.slice(4);
 
@@ -21,10 +53,13 @@ const MenuGrid = () => {
       <View style={styles.row}>
         {firstRow.map((item, index) => (
           <View style={styles.gridItem} key={index}>
-            <View style={styles.iconCircle}>
-              <Icon name={item.icon} size={26} color="#4A90E2" />
-            </View>
-            <Text style={styles.menuText}>{item.label}</Text>
+            <Pressable style={{ alignItems: "center", justifyContent: "center" }} onPress={() => handlePress(item.label)}>
+              <View style={styles.iconCircle}>
+                <Icon name={item.icon} size={26} color="#4A90E2" />
+              </View>
+              <Text style={styles.menuText}>{item.label}</Text>
+
+            </Pressable>
           </View>
         ))}
       </View>
